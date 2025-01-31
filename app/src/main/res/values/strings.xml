@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">G24 Intercom</string>
+    <string name="permission_rationale">This app uses SMS permissions to automatically read codes from SMS and respond like G24 Intercom.</string>
+    <string name="permanently_declined_permission_rationale">It seems you\'ve permanently declined SMS permissions. Please grant permissions from app settings to continue using app.</string>
+</resources>

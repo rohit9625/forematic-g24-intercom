@@ -47,6 +47,7 @@ import com.forematic.intercom.Message
 import com.forematic.intercom.R
 import com.forematic.intercom.ui.components.MessageBubble
 import com.forematic.intercom.ui.components.SwitchWithText
+import com.forematic.intercom.ui.events.MainScreenEvent
 import com.forematic.intercom.ui.states.MainUiState
 import com.forematic.intercom.ui.theme.G24IntercomTheme
 import com.forematic.intercom.utils.DummyData
@@ -56,6 +57,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     uiState: MainUiState,
+    onEvent: (MainScreenEvent) -> Unit,
     onNavigateToSettings: ()-> Unit,
     onRequestPermission: ()-> Unit,
     showPermissionRationale: Boolean = false,
@@ -138,8 +140,8 @@ fun MainScreen(
 
         if(isQuickSetupDialogOpen) {
             QuickSetupDialog(
-                onSubmit = { _, _ ->
-
+                onSubmit = { phoneNumber, callOutNumber ->
+                    onEvent(MainScreenEvent.OnSetupIntercom(phoneNumber, callOutNumber))
                 },
                 onDismiss = { isQuickSetupDialogOpen = false }
             )
@@ -276,6 +278,7 @@ private fun ChatScreenPreview() {
     G24IntercomTheme {
         MainScreen(
             uiState = MainUiState(messages = DummyData.messages, programmingPassword = "1234"),
+            onEvent = { },
             showPermissionRationale = false,
             onNavigateToSettings = { },
             onRequestPermission = { }

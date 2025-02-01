@@ -10,7 +10,7 @@ import com.forematic.intercom.data.database.entity.IntercomEntity
 
 @Database(
     entities = [IntercomEntity::class],
-    version = 1
+    version = 2
 )
 abstract class IntercomDatabase: RoomDatabase() {
     abstract val intercomDao: IntercomDao
@@ -25,12 +25,7 @@ abstract class IntercomDatabase: RoomDatabase() {
                     context.applicationContext,
                     IntercomDatabase::class.java,
                     "intercom_database"
-                ).fallbackToDestructiveMigration().addCallback(object : Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) {
-                        super.onCreate(db)
-                        db.execSQL("INSERT INTO intercom (programming_password, signal_strength) VALUES ('1234', 4)")
-                    }
-                }).build().also {
+                ).fallbackToDestructiveMigration().build().also {
                     INSTANCE = it
                 }
                 instance

@@ -18,6 +18,10 @@ class IntercomDataSource(
         intercomDao.updateProgrammingPassword(newPassword)
     }
 
+    suspend fun changeAdminNumber(newAdminNumber: String) {
+        intercomDao.updateAdminNumber(newAdminNumber)
+    }
+
     fun getIntercomDevice(): Flow<IntercomDevice> {
         return intercomDao.getIntercomDevice().map { it.toIntercomDevice() }
     }

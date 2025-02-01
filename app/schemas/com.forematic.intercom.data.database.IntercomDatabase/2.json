@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "01427924d78bd3a8d4cc79531f3e9647",
+    "version": 2,
+    "identityHash": "ae0d4e4c81acae3f142ce2a50995370d",
     "entities": [
       {
         "tableName": "intercom",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `programming_password` TEXT NOT NULL, `signal_strength` INTEGER NOT NULL, `admin_number` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `programming_password` TEXT NOT NULL, `signal_strength` INTEGER NOT NULL, `admin_number` TEXT NOT NULL, `first_call_out_number` TEXT NOT NULL, `second_call_out_number` TEXT NOT NULL, `third_call_out_number` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -31,6 +31,24 @@
             "columnName": "admin_number",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "firstCallOutNumber",
+            "columnName": "first_call_out_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "secondCallOutNumber",
+            "columnName": "second_call_out_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "thirdCallOutNumber",
+            "columnName": "third_call_out_number",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -46,7 +64,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '01427924d78bd3a8d4cc79531f3e9647')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ae0d4e4c81acae3f142ce2a50995370d')"
     ]
   }
 }

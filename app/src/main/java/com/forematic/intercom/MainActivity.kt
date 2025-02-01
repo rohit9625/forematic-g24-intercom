@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         intercomDataSource = IntercomDataSource(IntercomApplication.databaseModule.intercomDao)
-        messageReceiver = MessageReceiver(intercomDataSource)
+        messageReceiver = MessageReceiver(intercomDataSource, IntercomApplication.databaseModule.smsManager)
 
         val intentFilter = IntentFilter("android.provider.Telephony.SMS_RECEIVED")
         registerReceiver(messageReceiver, intentFilter)
@@ -62,6 +62,7 @@ class MainActivity : ComponentActivity() {
                             onNavigateToSettings = { navController.navigate(Route.Settings) },
                             onRequestPermission = ::requestSmsPermissions,
                             showPermissionRationale = shouldShowPermissionRationale,
+                            onEvent = mainViewModel::onEvent
 //                            isPermanentlyDeclined = !shouldShowRequestPermissionRationale(Manifest.permission.SEND_SMS)
                         )
                     }

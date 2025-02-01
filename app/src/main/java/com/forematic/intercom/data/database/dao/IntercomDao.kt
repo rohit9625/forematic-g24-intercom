@@ -15,6 +15,9 @@ interface IntercomDao {
     @Query("UPDATE intercom SET programming_password = :newPassword WHERE id = 1")
     suspend fun updateProgrammingPassword(newPassword: String)
 
+    @Query("UPDATE intercom SET admin_number = :newNumber WHERE id = 1")
+    suspend fun updateAdminNumber(newNumber: String)
+
     @Query("SELECT * FROM intercom WHERE id = 1")
     fun getIntercomDevice(): Flow<IntercomEntity>
 }

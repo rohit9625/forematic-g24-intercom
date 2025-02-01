@@ -7,6 +7,7 @@ import android.telephony.SmsManager
 import android.telephony.SmsMessage
 import android.util.Log
 import com.forematic.intercom.data.IntercomDataSource
+import com.forematic.intercom.data.model.CallOutNumber
 import com.forematic.intercom.data.model.IntercomCommand
 import com.forematic.intercom.utils.CommandParser
 import kotlinx.coroutines.CoroutineScope
@@ -62,6 +63,31 @@ class MessageReceiver(
                     CoroutineScope(Dispatchers.IO).launch {
                         intercomDataSource.changeAdminNumber(it)
                         smsManager.sendTextMessage(phoneNumber, null, "Admin number changed successfully", null, null)
+                    }
+                }
+            }
+
+            IntercomCommand.SET_CALLOUT_1 -> {
+                extractedData?.let {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        intercomDataSource.setCallOutNumber(it, CallOutNumber.FIRST)
+                        smsManager.sendTextMessage(phoneNumber, null, "SUCCESS", null, null)
+                    }
+                }
+            }
+            IntercomCommand.SET_CALLOUT_2 -> {
+                extractedData?.let {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        intercomDataSource.setCallOutNumber(it, CallOutNumber.SECOND)
+                        smsManager.sendTextMessage(phoneNumber, null, "SUCCESS", null, null)
+                    }
+                }
+            }
+            IntercomCommand.SET_CALLOUT_3 -> {
+                extractedData?.let {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        intercomDataSource.setCallOutNumber(it, CallOutNumber.THIRD)
+                        smsManager.sendTextMessage(phoneNumber, null, "SUCCESS", null, null)
                     }
                 }
             }

@@ -18,6 +18,15 @@ interface IntercomDao {
     @Query("UPDATE intercom SET admin_number = :newNumber WHERE id = 1")
     suspend fun updateAdminNumber(newNumber: String)
 
+    @Query("UPDATE intercom SET first_call_out_number = :newNumber WHERE id = 1")
+    suspend fun updateFirstCallOutNumber(newNumber: String)
+
+    @Query("UPDATE intercom SET second_call_out_number = :newNumber WHERE id = 1")
+    suspend fun updateSecondCallOutNumber(newNumber: String)
+
+    @Query("UPDATE intercom SET third_call_out_number = :newNumber WHERE id = 1")
+    suspend fun updateThirdCallOutNumber(newNumber: String)
+
     @Query("SELECT * FROM intercom WHERE id = 1")
     fun getIntercomDevice(): Flow<IntercomEntity>
 }

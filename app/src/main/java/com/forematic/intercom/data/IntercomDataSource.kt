@@ -1,6 +1,7 @@
 package com.forematic.intercom.data
 
 import com.forematic.intercom.data.database.dao.IntercomDao
+import com.forematic.intercom.data.model.CallOutNumber
 import com.forematic.intercom.data.model.IntercomDevice
 import com.forematic.intercom.data.model.toEntity
 import com.forematic.intercom.data.model.toIntercomDevice
@@ -20,6 +21,14 @@ class IntercomDataSource(
 
     suspend fun changeAdminNumber(newAdminNumber: String) {
         intercomDao.updateAdminNumber(newAdminNumber)
+    }
+
+    suspend fun setCallOutNumber(newCallOutNumber: String, callOutNumber: CallOutNumber) {
+        when(callOutNumber) {
+            CallOutNumber.FIRST -> intercomDao.updateFirstCallOutNumber(newCallOutNumber)
+            CallOutNumber.SECOND -> intercomDao.updateSecondCallOutNumber(newCallOutNumber)
+            CallOutNumber.THIRD -> intercomDao.updateThirdCallOutNumber(newCallOutNumber)
+        }
     }
 
     fun getIntercomDevice(): Flow<IntercomDevice> {

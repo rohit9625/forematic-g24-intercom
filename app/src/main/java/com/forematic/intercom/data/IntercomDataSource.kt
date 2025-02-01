@@ -32,6 +32,14 @@ class IntercomDataSource(
         }
     }
 
+    suspend fun setMicVolume(newVolume: Int) {
+        intercomDao.updateMicVolume(newVolume)
+    }
+
+    suspend fun setSpeakerVolume(newVolume: Int) {
+        intercomDao.updateSpeakerVolume(newVolume)
+    }
+
     fun getIntercomDevice(): Flow<IntercomDevice> {
         return intercomDao.getIntercomDevice().transform {
             it?.let {

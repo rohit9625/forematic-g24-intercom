@@ -107,6 +107,25 @@ class MessageReceiver(
                     }
                 }
             }
+
+            IntercomCommand.SET_MIC_VOLUME -> {
+                extractedData?.let {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        intercomDataSource.setMicVolume(it.toIntOrNull() ?: 0)
+                        smsManager.sendTextMessage(phoneNumber, null, "SUCCESS", null, null)
+                        addMessageToDatabase(Message(content = "SUCCESS", isSentByIntercom = true))
+                    }
+                }
+            }
+            IntercomCommand.SET_SPEAKER_VOLUME -> {
+                extractedData?.let {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        intercomDataSource.setSpeakerVolume(it.toIntOrNull() ?: 0)
+                        smsManager.sendTextMessage(phoneNumber, null, "SUCCESS", null, null)
+                        addMessageToDatabase(Message(content = "SUCCESS", isSentByIntercom = true))
+                    }
+                }
+            }
         }
     }
 

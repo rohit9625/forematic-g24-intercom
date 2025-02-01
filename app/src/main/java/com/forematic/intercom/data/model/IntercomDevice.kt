@@ -9,7 +9,9 @@ data class IntercomDevice(
     val adminNumber: String,
     val firstCallOutNumber: String? = null,
     val secondCallOutNumber: String? = null,
-    val thirdCallOutNumber: String? = null
+    val thirdCallOutNumber: String? = null,
+    val micVolume: Int = 0,
+    val speakerVolume: Int = 0
 )
 
 fun IntercomDevice.toEntity() = IntercomEntity(
@@ -18,7 +20,9 @@ fun IntercomDevice.toEntity() = IntercomEntity(
     adminNumber = adminNumber,
     firstCallOutNumber = firstCallOutNumber ?: "",
     secondCallOutNumber = secondCallOutNumber ?: "",
-    thirdCallOutNumber = thirdCallOutNumber ?: ""
+    thirdCallOutNumber = thirdCallOutNumber ?: "",
+    micVolume = micVolume,
+    speakerVolume = speakerVolume
 )
 
 fun IntercomEntity.toIntercomDevice() = IntercomDevice(
@@ -28,5 +32,7 @@ fun IntercomEntity.toIntercomDevice() = IntercomDevice(
     adminNumber = adminNumber,
     firstCallOutNumber = firstCallOutNumber.ifBlank { null },
     secondCallOutNumber = secondCallOutNumber.ifBlank { null },
-    thirdCallOutNumber = thirdCallOutNumber.ifBlank { null }
+    thirdCallOutNumber = thirdCallOutNumber.ifBlank { null },
+    micVolume = micVolume,
+    speakerVolume = speakerVolume
 )

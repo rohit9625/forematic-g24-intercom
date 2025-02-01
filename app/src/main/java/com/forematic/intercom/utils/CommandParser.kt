@@ -29,6 +29,11 @@ object CommandParser {
                 val match = command.pattern.toRegex().find(message)
                 match?.groupValues?.get(1) // Extract the callout number
             }
+            IntercomCommand.SET_MIC_VOLUME,
+            IntercomCommand.SET_SPEAKER_VOLUME -> {
+                val match = command.pattern.toRegex().find(message)
+                match?.groupValues?.get(1) // Extract the volume level
+            }
             else -> null // For now, other commands may not have additional data to extract
         }
     }

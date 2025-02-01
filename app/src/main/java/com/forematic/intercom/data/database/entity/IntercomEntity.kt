@@ -19,5 +19,9 @@ data class IntercomEntity(
     @ColumnInfo(name = "second_call_out_number")
     val secondCallOutNumber: String,
     @ColumnInfo(name = "third_call_out_number")
-    val thirdCallOutNumber: String
+    val thirdCallOutNumber: String,
+    @ColumnInfo(name = "mic_volume")
+    val micVolume: Int,
+    @ColumnInfo(name = "speaker_volume")
+    val speakerVolume: Int
 )

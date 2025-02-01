@@ -53,4 +53,18 @@ class CommandParserTest {
             assertEquals(expectedData, extractedData)
         }
     }
+
+    @Test
+    fun `test parseCommand with valid volume commands`() {
+        val micVolumeCommand = "1234#MIC#04#"
+        val speakerVolumeCommand = "1234#SP#03#"
+
+        val (micCommand, micVolume) = CommandParser.parseCommand(micVolumeCommand)
+        val (speakerCommand, speakerVolume) = CommandParser.parseCommand(speakerVolumeCommand)
+
+        assertEquals(IntercomCommand.SET_MIC_VOLUME, micCommand)
+        assertEquals(IntercomCommand.SET_SPEAKER_VOLUME, speakerCommand)
+        assertEquals("04", micVolume)
+        assertEquals("03", speakerVolume)
+    }
 }

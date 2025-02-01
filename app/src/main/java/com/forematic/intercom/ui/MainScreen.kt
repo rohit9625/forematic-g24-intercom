@@ -114,10 +114,12 @@ fun MainScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-//            Text(
-//                text = "Programming Password: ${uiState.programmingPassword}",
-//                style = MaterialTheme.typography.titleSmall
-//            )
+            uiState.programmingPassword?.let {
+                Text(
+                    text = "Programming Password: $it",
+                    style = MaterialTheme.typography.titleSmall
+                )
+            }
 
             if(showPermissionRationale) {
                 PermissionRational(
@@ -128,6 +130,15 @@ fun MainScreen(
                         .fillMaxSize()
                 )
             } else {
+                if(uiState.programmingPassword != null) {
+                    ChatScreen(
+                        messages = uiState.messages,
+                        newMessage = Message(
+                            content = "",
+                            isSentByUser = true
+                        )
+                    )
+                }
                 Button(
                     onClick = { isQuickSetupDialogOpen = true }
                 ) {

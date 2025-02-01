@@ -7,6 +7,7 @@ import com.forematic.intercom.data.model.toEntity
 import com.forematic.intercom.data.model.toIntercomDevice
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.transform
 
 class IntercomDataSource(
     private val intercomDao: IntercomDao
@@ -32,6 +33,10 @@ class IntercomDataSource(
     }
 
     fun getIntercomDevice(): Flow<IntercomDevice> {
-        return intercomDao.getIntercomDevice().map { it.toIntercomDevice() }
+        return intercomDao.getIntercomDevice().transform {
+            it?.let {
+                emit(it.toIntercomDevice())
+            }
+        }
     }
 }

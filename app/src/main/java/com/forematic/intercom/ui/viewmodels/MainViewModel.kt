@@ -15,14 +15,16 @@ class MainViewModel(
 ): ViewModel() {
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState = _uiState.asStateFlow()
+
     init {
-//        viewModelScope.launch {
-//            intercomDataSource.getIntercomDevice().collect { intercom ->
-//                _uiState.value = _uiState.value.copy(
-//                    programmingPassword = intercom.programmingPassword
-//                )
-//            }
-//        }
+        viewModelScope.launch {
+            intercomDataSource.getIntercomDevice().collect { intercom ->
+                _uiState.value = _uiState.value.copy(
+                    programmingPassword = intercom.programmingPassword,
+                    adminNumber = intercom.adminNumber
+                )
+            }
+        }
     }
 
     fun onEvent(e: MainScreenEvent) {

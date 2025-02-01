@@ -17,7 +17,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.forematic.intercom.data.IntercomDataSource
 import com.forematic.intercom.data.sms.MessageReceiver
 import com.forematic.intercom.ui.MainScreen
 import com.forematic.intercom.ui.SettingScreen
@@ -28,7 +27,6 @@ import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {
     private lateinit var messageReceiver: MessageReceiver
-    private lateinit var intercomDataSource: IntercomDataSource
     private var shouldShowPermissionRationale by mutableStateOf(false)
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -39,8 +37,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        intercomDataSource = IntercomDataSource(IntercomApplication.databaseModule.intercomDao)
-        messageReceiver = MessageReceiver(intercomDataSource, IntercomApplication.databaseModule.smsManager)
+        messageReceiver = MessageReceiver(
+            intercomDataSource = IntercomApplication.databaseModule.intercomDataSource,
+            smsManager = IntercomApplication.databaseModule.smsManager,
+            messageDataSource = IntercomApplication.databaseModule.messageDataSource
+        )
 
         val intentFilter = IntentFilter("android.provider.Telephony.SMS_RECEIVED")
         registerReceiver(messageReceiver, intentFilter)
@@ -53,7 +54,10 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = Route.Main) {
                     composable<Route.Main> {
                         val mainViewModel = viewModel<MainViewModel> {
-                            MainViewModel(intercomDataSource)
+                            MainViewModel(
+                                intercomDataSource = IntercomApplication.databaseModule.intercomDataSource,
+                                messageDataSource = IntercomApplication.databaseModule.messageDataSource
+                            )
                         }
                         val uiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -69,7 +73,9 @@ class MainActivity : ComponentActivity() {
 
                     composable<Route.Settings> {
                         val settingsViewmodel = viewModel<SettingsViewModel> {
-                            SettingsViewModel(intercomDataSource)
+                            SettingsViewModel(
+                                intercomDataSource = IntercomApplication.databaseModule.intercomDataSource
+                            )
                         }
                         val uiState by settingsViewmodel.uiState.collectAsStateWithLifecycle()
 

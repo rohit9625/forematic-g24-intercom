@@ -1,12 +1,12 @@
 package com.forematic.intercom.utils
 
-import com.forematic.intercom.Message
+import com.forematic.intercom.data.model.Message
 
 object DummyData {
     val messages = listOf(
-        Message("I'm fine, thanks!", false),
-        Message("How are you?", true),
-        Message("Hi", false),
-        Message("Hello", true),
+        Message(content = "I'm fine, thanks!", isSentByIntercom =  false),
+        Message(content = "How are you?", isSentByIntercom =  true),
+        Message(content = "Hi", isSentByIntercom =  false),
+        Message(content = "Hello", isSentByIntercom =  true),
     )
 }

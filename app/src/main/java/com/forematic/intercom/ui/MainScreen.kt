@@ -43,7 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.forematic.intercom.Message
+import com.forematic.intercom.data.model.Message
 import com.forematic.intercom.R
 import com.forematic.intercom.ui.components.MessageBubble
 import com.forematic.intercom.ui.components.SwitchWithText
@@ -135,7 +135,7 @@ fun MainScreen(
                         messages = uiState.messages,
                         newMessage = Message(
                             content = "",
-                            isSentByUser = true
+                            isSentByIntercom = true
                         )
                     )
                 }

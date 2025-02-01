@@ -14,18 +14,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.forematic.intercom.Message
+import com.forematic.intercom.data.model.Message
 
 @Composable
 fun MessageBubble(message: Message) {
-    val backgroundColor = if (message.isSentByUser) MaterialTheme.colorScheme.inversePrimary
+    val backgroundColor = if (message.isSentByIntercom) MaterialTheme.colorScheme.inversePrimary
     else MaterialTheme.colorScheme.tertiaryContainer
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        horizontalArrangement = if (message.isSentByUser) Arrangement.End else Arrangement.Start
+        horizontalArrangement = if (message.isSentByIntercom) Arrangement.End else Arrangement.Start
     ) {
         Box(
             modifier = Modifier

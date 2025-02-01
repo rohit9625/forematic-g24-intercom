@@ -1,6 +1,6 @@
 package com.forematic.intercom.ui.states
 
-import com.forematic.intercom.Message
+import com.forematic.intercom.data.model.Message
 
 data class MainUiState(
     val messages: List<Message> = emptyList(),

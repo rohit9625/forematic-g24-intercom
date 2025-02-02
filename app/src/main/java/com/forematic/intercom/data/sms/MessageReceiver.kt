@@ -131,6 +131,26 @@ class MessageReceiver(
                     }
                 }
             }
+
+            IntercomCommand.SET_RELAY1_TIME -> {
+                extractedData?.let {
+                    updateRelayTime(phoneNumber, 1, it.toIntOrNull() ?: 5)
+                }
+            }
+            IntercomCommand.SET_RELAY2_TIME -> {
+                extractedData?.let {
+                    updateRelayTime(phoneNumber, 2, it.toIntOrNull() ?: 5)
+                }
+            }
+        }
+    }
+
+    private fun updateRelayTime(phoneNumber: String, relayId: Long, time: Int) {
+        if(time in 1..99) {
+            CoroutineScope(Dispatchers.IO).launch {
+                intercomDataSource.setRelayTime(relayId, time)
+                messageHandler.sendTextMessage(phoneNumber, "Relay time updated successfully")
+            }
         }
     }
 

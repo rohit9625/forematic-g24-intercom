@@ -81,4 +81,18 @@ class CommandParserTest {
             assertEquals(expectedMode, actualMode)
         }
     }
+
+    @Test
+    fun `parseCommand should correctly identify SET_RELAY_1_TIME command`() {
+        val (command, extractedData) = CommandParser.parseCommand("1234#RL1T#02#")
+        assertEquals(IntercomCommand.SET_RELAY1_TIME, command)
+        assertEquals("02", extractedData)
+    }
+
+    @Test
+    fun `parseCommand should correctly identify SET_RELAY_2_TIME command`() {
+        val (command, extractedData) = CommandParser.parseCommand("1234#RL2T#10#")
+        assertEquals(IntercomCommand.SET_RELAY2_TIME, command)
+        assertEquals("10", extractedData)
+    }
 }

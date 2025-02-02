@@ -43,6 +43,12 @@ object CommandParser {
                 match?.groupValues?.get(1) // Extract the timezone mode
             }
 
+            IntercomCommand.SET_RELAY1_TIME,
+            IntercomCommand.SET_RELAY2_TIME -> {
+                val match = command.pattern.toRegex().find(message)
+                match?.groupValues?.get(1) // Extracts relay time value
+            }
+
             else -> null // For now, other commands may not have additional data to extract
         }
     }

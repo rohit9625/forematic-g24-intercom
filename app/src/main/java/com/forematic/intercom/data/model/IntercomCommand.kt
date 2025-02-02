@@ -9,7 +9,11 @@ enum class IntercomCommand(val pattern: String) {
     SET_CALLOUT_3("\\d{4}#03#(\\d{10,15})#"),
     SET_MIC_VOLUME("\\d{4}#MIC#(\\d{2})#"),
     SET_SPEAKER_VOLUME("\\d{4}#SP#(\\d{2})#"),
-    SET_TIMEZONE_MODE("\\d{4}#(FREE|NIGHT|DAY|HOLS)#");
+    SET_TIMEZONE_MODE("\\d{4}#(FREE|NIGHT|DAY|HOLS)#"),
+
+    // Relay Commands
+    SET_RELAY1_TIME("\\d{4}#RL1T#(\\d{2})#"),
+    SET_RELAY2_TIME("\\d{4}#RL2T#(\\d{2})#");
 
     companion object  {
         fun fromMessage(message: String): IntercomCommand? {

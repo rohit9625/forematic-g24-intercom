@@ -4,7 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.forematic.intercom.data.database.entity.IntercomEntity
+import com.forematic.intercom.data.database.entity.IntercomWithRelay
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -38,4 +40,8 @@ interface IntercomDao {
 
     @Query("SELECT * FROM intercom WHERE id = 1")
     fun getIntercomDevice(): Flow<IntercomEntity>
+
+    @Transaction
+    @Query("SELECT * FROM intercom WHERE id = :intercomId")
+    fun getIntercomDeviceWithRelays(intercomId: Int): Flow<IntercomWithRelay>
 }

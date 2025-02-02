@@ -2,9 +2,26 @@ package com.forematic.intercom.data.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "intercom")
+@Entity(
+    tableName = "intercom",
+    foreignKeys = [
+        ForeignKey(
+            entity = RelayEntity::class,
+            parentColumns = arrayOf("id"),
+            childColumns = arrayOf("first_relay"),
+            onDelete = ForeignKey.SET_NULL
+        ),
+        ForeignKey(
+            entity = RelayEntity::class,
+            parentColumns = arrayOf("id"),
+            childColumns = arrayOf("second_relay"),
+            onDelete = ForeignKey.SET_NULL
+        )
+    ]
+)
 data class IntercomEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
@@ -34,5 +51,11 @@ data class IntercomEntity(
     val speakerVolume: Int,
 
     @ColumnInfo(name = "timezone_mode")
-    val timezoneMode: String
+    val timezoneMode: String,
+
+    @ColumnInfo(name = "first_relay")
+    val firstRelay: Int? = null,
+
+    @ColumnInfo(name = "second_relay")
+    val secondRelay: Int? = null
 )

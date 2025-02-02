@@ -6,14 +6,17 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.forematic.intercom.data.database.dao.IntercomDao
+import com.forematic.intercom.data.database.dao.RelayDao
 import com.forematic.intercom.data.database.entity.IntercomEntity
+import com.forematic.intercom.data.database.entity.RelayEntity
 
 @Database(
-    entities = [IntercomEntity::class],
-    version = 4
+    entities = [IntercomEntity::class, RelayEntity::class],
+    version = 5
 )
 abstract class IntercomDatabase: RoomDatabase() {
     abstract val intercomDao: IntercomDao
+    abstract val relayDao: RelayDao
 
     companion object {
         @Volatile

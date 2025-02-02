@@ -49,7 +49,7 @@ class MessageHandler(
     private fun insertMessage(recipient: String, message: String) {
         CoroutineScope(Dispatchers.IO).launch {
             messageDataSource.insertMessage(
-                Message(content = message, isSentByIntercom = true)
+                Message(content = message, isSentByIntercom = true, senderAddress = recipient)
             )
         }
     }

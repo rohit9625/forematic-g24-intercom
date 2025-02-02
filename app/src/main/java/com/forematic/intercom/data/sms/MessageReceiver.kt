@@ -31,7 +31,9 @@ class MessageReceiver(
                 val sender = sms.originatingAddress ?: ""
                 val messageBody = sms.messageBody
 
-                addMessageToDatabase(Message(content = messageBody, isSentByIntercom = false))
+                addMessageToDatabase(
+                    Message(content = messageBody, isSentByIntercom = false, senderAddress = sender)
+                )
 
                 val (command, extractedData) = CommandParser.parseCommand(messageBody)
 

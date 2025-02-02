@@ -9,5 +9,6 @@ data class MessageEntity(
     val id: Int = 0,
     val content: String,
     val isSentByIntercom: Boolean,
-    val timestamp: Long
+    val timestamp: Long,
+    val senderAddress: String?
 )

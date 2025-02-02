@@ -9,7 +9,7 @@ import com.forematic.intercom.data.database.entity.MessageEntity
 
 @Database(
     entities = [MessageEntity::class],
-    version = 1
+    version = 2
 )
 abstract class MessageDatabase: RoomDatabase() {
     abstract val messageDao: MessageDao

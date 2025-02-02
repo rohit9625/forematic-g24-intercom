@@ -50,6 +50,18 @@ class IntercomDataSource(
         return relayDao.insertRelay(relay.toEntity())
     }
 
+    suspend fun setOutputName(relayId: Long, outputName: String) {
+        relayDao.updateOutputName(relayId, outputName)
+    }
+
+    suspend fun setRelayTime(relayId: Long, relayTime: Int) {
+        relayDao.updateRelayTime(relayId, relayTime)
+    }
+
+    suspend fun setKeypadCode(relayId: Long, keypadCode: String) {
+        relayDao.updateKeypadCode(relayId, keypadCode)
+    }
+
     fun getIntercomDevice(): Flow<IntercomDevice> {
         return intercomDao.getIntercomDeviceWithRelays(1).transform {
             it?.let {

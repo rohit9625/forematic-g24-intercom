@@ -39,12 +39,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         messageReceiver = MessageReceiver(
             intercomDataSource = IntercomApplication.databaseModule.intercomDataSource,
-            smsManager = IntercomApplication.databaseModule.smsManager,
+            messageHandler = IntercomApplication.databaseModule.messageHandler,
             messageDataSource = IntercomApplication.databaseModule.messageDataSource
         )
 
         val intentFilter = IntentFilter("android.provider.Telephony.SMS_RECEIVED")
         registerReceiver(messageReceiver, intentFilter)
+        IntercomApplication.databaseModule.messageHandler.registerBroadcastReceivers(this)
 
         enableEdgeToEdge()
         setContent {
@@ -119,6 +120,7 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(messageReceiver)
+        IntercomApplication.databaseModule.messageHandler.unregisterReceivers()
     }
 }
 

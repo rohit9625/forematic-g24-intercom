@@ -9,6 +9,7 @@ import com.forematic.intercom.data.database.IntercomDatabase
 import com.forematic.intercom.data.database.MessageDatabase
 import com.forematic.intercom.data.database.dao.IntercomDao
 import com.forematic.intercom.data.database.dao.MessageDao
+import com.forematic.intercom.data.sms.MessageHandler
 
 class DatabaseModuleImpl(private val context: Context): DatabaseModule {
     override val intercomDatabase: IntercomDatabase by lazy {
@@ -40,5 +41,9 @@ class DatabaseModuleImpl(private val context: Context): DatabaseModule {
         } else {
             SmsManager.getDefault()
         }
+    }
+
+    override val messageHandler: MessageHandler by lazy {
+        MessageHandler(context, smsManager, messageDataSource)
     }
 }

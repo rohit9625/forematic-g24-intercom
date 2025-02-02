@@ -7,6 +7,7 @@ import com.forematic.intercom.data.database.IntercomDatabase
 import com.forematic.intercom.data.database.MessageDatabase
 import com.forematic.intercom.data.database.dao.IntercomDao
 import com.forematic.intercom.data.database.dao.MessageDao
+import com.forematic.intercom.data.sms.MessageHandler
 
 interface DatabaseModule {
     val intercomDatabase: IntercomDatabase
@@ -22,4 +23,6 @@ interface DatabaseModule {
     val intercomDataSource: IntercomDataSource
 
     val messageDataSource: MessageDataSource
+
+    val messageHandler: MessageHandler
 }

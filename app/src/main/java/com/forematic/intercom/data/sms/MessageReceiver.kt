@@ -11,9 +11,11 @@ import com.forematic.intercom.data.model.CallOutNumber
 import com.forematic.intercom.data.model.IntercomCommand
 import com.forematic.intercom.data.model.Message
 import com.forematic.intercom.utils.CommandParser
+import com.forematic.intercom.utils.PhoneNumberUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class MessageReceiver(
@@ -28,28 +30,36 @@ class MessageReceiver(
             val pdus = extras.get("pdus") as Array<*>
             for (pdu in pdus) {
                 val sms = SmsMessage.createFromPdu(pdu as ByteArray)
-                val sender = sms.originatingAddress ?: ""
+                val sender = sms.originatingAddress
                 val messageBody = sms.messageBody
 
-                addMessageToDatabase(
-                    Message(content = messageBody, isSentByIntercom = false, senderAddress = sender)
-                )
+                sender?.let {
+                    CoroutineScope(Dispatchers.Default).launch {
+                        messageDataSource.insertMessage(
+                            Message(content = messageBody, isSentByIntercom = false, senderAddress = sender)
+                        )
 
-                val (command, extractedData) = CommandParser.parseCommand(messageBody)
+                        if(isSenderAdmin(sender)) {
+                            val (command, extractedData) = CommandParser.parseCommand(messageBody)
 
-                if (command != null) {
-                    handleCommand(sender, command, extractedData)
-                } else {
-                    messageHandler.sendTextMessage(sender, "Invalid Command Format")
+                            if (command != null) {
+                                handleCommand(sender, command, extractedData)
+                            } else {
+                                messageHandler.sendTextMessage(sender, "Invalid message!")
+                            }
+                        } else {
+                            messageHandler.sendTextMessage(sender, "Do not have permission!")
+                        }
+                    }
                 }
             }
         }
     }
 
-    private fun addMessageToDatabase(message: Message) {
-        CoroutineScope(Dispatchers.IO).launch {
-            messageDataSource.insertMessage(message)
-        }
+    private suspend fun isSenderAdmin(sender: String): Boolean {
+        val adminNumber = intercomDataSource.getIntercomDevice().first().adminNumber
+
+        return PhoneNumberUtils.arePhoneNumbersEqual(adminNumber, sender)
     }
 
     private fun handleCommand(phoneNumber: String, command: IntercomCommand, extractedData: String?) {

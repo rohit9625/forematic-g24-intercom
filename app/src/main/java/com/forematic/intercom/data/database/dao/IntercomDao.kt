@@ -38,6 +38,12 @@ interface IntercomDao {
     @Query("UPDATE intercom SET timezone_mode = :mode WHERE id = 1")
     suspend fun updateTimezoneMode(mode: String)
 
+    @Query("UPDATE intercom SET cli_number = :number WHERE id = 1")
+    suspend fun updateCliNumber(number: String)
+
+    @Query("UPDATE intercom SET delivery_code = :code WHERE id = 1")
+    suspend fun updateDeliveryCode(code: String)
+
     @Query("SELECT * FROM intercom WHERE id = 1")
     fun getIntercomDevice(): Flow<IntercomEntity>
 

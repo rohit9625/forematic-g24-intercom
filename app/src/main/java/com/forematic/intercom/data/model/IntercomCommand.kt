@@ -11,6 +11,13 @@ enum class IntercomCommand(val pattern: String) {
     SET_SPEAKER_VOLUME("\\d{4}#SP#(\\d{2})#"),
     SET_TIMEZONE_MODE("\\d{4}#(FREE|NIGHT|DAY|HOLS)#"),
 
+    // CLI Commands
+    SET_CLI_NUMBER("\\d{4}#11#201#(\\d{8,11})#"),
+    FIND_NEXT_CLI_LOCATION("\\d{4}#CIA\\?#"),
+
+    // Delivery Code Commands (Single Use Code)
+    FIND_DELIVERY_CODE_LOCATION("\\d{4}#SUA\\?#"),
+
     // Relay Commands
     SET_RELAY1_TIME("\\d{4}#RL1T#(\\d{2})#"),
     SET_RELAY2_TIME("\\d{4}#RL2T#(\\d{2})#"),

@@ -49,6 +49,11 @@ object CommandParser {
                 match?.groupValues?.get(1) // Extracts relay time value
             }
 
+            IntercomCommand.SET_CLI_NUMBER -> {
+                val match = command.pattern.toRegex().find(message)
+                match?.groupValues?.get(1) // Extracts the CLI number
+            }
+
             else -> null // For now, other commands may not have additional data to extract
         }
     }

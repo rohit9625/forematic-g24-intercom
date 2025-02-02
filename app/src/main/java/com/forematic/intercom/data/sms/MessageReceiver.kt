@@ -145,6 +145,35 @@ class MessageReceiver(
 
             IntercomCommand.FIND_NEXT_RELAY1_LOCATION -> sendRelayNextFreeLocation(relayId = 1, phoneNumber)
             IntercomCommand.FIND_NEXT_RELAY2_LOCATION -> sendRelayNextFreeLocation(relayId = 2, phoneNumber)
+            IntercomCommand.FIND_NEXT_CLI_LOCATION -> sendCliNumberLocation(phoneNumber)
+            IntercomCommand.FIND_DELIVERY_CODE_LOCATION -> sendDeliveryCodeLocation(phoneNumber)
+
+            IntercomCommand.SET_CLI_NUMBER -> {
+                extractedData?.let { cliNumber ->
+                    setCliNumberAndSendResponse(phoneNumber, cliNumber)
+                }
+            }
+        }
+    }
+
+    private fun setCliNumberAndSendResponse(recipient: String, number: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            intercomDataSource.setCliNumber(number)
+            messageHandler.sendTextMessage(recipient, "CLI number updated successfully")
+        }
+    }
+
+    private fun sendDeliveryCodeLocation(phoneNumber: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val deliveryCodeLocation = intercomDataSource.getIntercomDevice().first().deliveryCodeLocation
+            messageHandler.sendTextMessage(phoneNumber, "Location is $deliveryCodeLocation")
+        }
+    }
+
+    private fun sendCliNumberLocation(phoneNumber: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val cliLocation = intercomDataSource.getIntercomDevice().first().cliLocation
+            messageHandler.sendTextMessage(phoneNumber, "Location is $cliLocation")
         }
     }
 

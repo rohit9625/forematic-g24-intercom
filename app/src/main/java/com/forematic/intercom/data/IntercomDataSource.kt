@@ -67,6 +67,14 @@ class IntercomDataSource(
         return relayDao.getRelayById(relayId).toRelay()
     }
 
+    suspend fun setCliNumber(number: String) {
+        intercomDao.updateCliNumber(number)
+    }
+
+    suspend fun setDeliveryCode(code: String) {
+        intercomDao.updateDeliveryCode(code)
+    }
+
     fun getIntercomDevice(): Flow<IntercomDevice> {
         return intercomDao.getIntercomDeviceWithRelays(1).transform {
             it?.let {

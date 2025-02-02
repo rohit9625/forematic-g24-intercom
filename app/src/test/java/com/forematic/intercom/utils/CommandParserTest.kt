@@ -95,4 +95,16 @@ class CommandParserTest {
         assertEquals(IntercomCommand.SET_RELAY2_TIME, command)
         assertEquals("10", extractedData)
     }
+
+    @Test
+    fun `parseCommand should correctly identify FIND_NEXT_RELAY_1_LOCATION command`() {
+        val (command, _) = CommandParser.parseCommand("1234#R1A?#")
+        assertEquals(IntercomCommand.FIND_NEXT_RELAY1_LOCATION, command)
+    }
+
+    @Test
+    fun `parseCommand should correctly identify FIND_NEXT_RELAY_2_LOCATION command`() {
+        val (command, _) = CommandParser.parseCommand("1234#R2A?#")
+        assertEquals(IntercomCommand.FIND_NEXT_RELAY2_LOCATION, command)
+    }
 }

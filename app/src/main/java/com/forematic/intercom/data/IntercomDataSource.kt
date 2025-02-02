@@ -7,6 +7,7 @@ import com.forematic.intercom.data.model.IntercomDevice
 import com.forematic.intercom.data.model.Relay
 import com.forematic.intercom.data.model.toEntity
 import com.forematic.intercom.data.model.toIntercomDevice
+import com.forematic.intercom.data.model.toRelay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
 
@@ -60,6 +61,10 @@ class IntercomDataSource(
 
     suspend fun setKeypadCode(relayId: Long, keypadCode: String) {
         relayDao.updateKeypadCode(relayId, keypadCode)
+    }
+
+    suspend fun getRelayById(relayId: Long): Relay {
+        return relayDao.getRelayById(relayId).toRelay()
     }
 
     fun getIntercomDevice(): Flow<IntercomDevice> {

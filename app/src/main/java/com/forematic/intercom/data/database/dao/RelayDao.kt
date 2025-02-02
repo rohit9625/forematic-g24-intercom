@@ -18,4 +18,7 @@ interface RelayDao {
 
     @Query("UPDATE relays SET relay_time = :relayTime WHERE id = :relayId")
     suspend fun updateRelayTime(relayId: Long, relayTime: Int)
+
+    @Query("SELECT * FROM relays WHERE id = :relayId")
+    suspend fun getRelayById(relayId: Long): RelayEntity
 }

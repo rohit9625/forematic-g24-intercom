@@ -142,6 +142,16 @@ class MessageReceiver(
                     updateRelayTime(phoneNumber, 2, it.toIntOrNull() ?: 5)
                 }
             }
+
+            IntercomCommand.FIND_NEXT_RELAY1_LOCATION -> sendRelayNextFreeLocation(relayId = 1, phoneNumber)
+            IntercomCommand.FIND_NEXT_RELAY2_LOCATION -> sendRelayNextFreeLocation(relayId = 2, phoneNumber)
+        }
+    }
+
+    private fun sendRelayNextFreeLocation(relayId: Long, phoneNumber: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val location = intercomDataSource.getRelayById(relayId).keypadCodeLocation
+            messageHandler.sendTextMessage(phoneNumber, "Next free location is $location")
         }
     }
 

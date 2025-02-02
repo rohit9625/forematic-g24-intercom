@@ -57,5 +57,17 @@ data class IntercomEntity(
     val firstRelay: Long? = null,
 
     @ColumnInfo(name = "second_relay")
-    val secondRelay: Long? = null
+    val secondRelay: Long? = null,
+
+    @ColumnInfo(name = "cli_number")
+    val cliNumber: String,
+
+    @ColumnInfo(name = "cli_location")
+    val cliLocation: String,
+
+    @ColumnInfo(name = "delivery_code")
+    val deliveryCode: String,
+
+    @ColumnInfo(name = "delivery_code_location")
+    val deliveryCodeLocation: String
 )

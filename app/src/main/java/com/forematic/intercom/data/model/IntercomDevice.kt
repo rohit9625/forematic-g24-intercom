@@ -15,7 +15,11 @@ data class IntercomDevice(
     val speakerVolume: Int = 0,
     val timezoneMode: TimezoneMode = TimezoneMode.FREE,
     val firstRelay: Relay? = null,
-    val secondRelay: Relay? = null
+    val secondRelay: Relay? = null,
+    val cliNumber: String? = null,
+    val cliLocation: String = "201",
+    val deliveryCode: String? = null,
+    val deliveryCodeLocation: String = "158"
 )
 
 fun IntercomDevice.toEntity() = IntercomEntity(
@@ -29,7 +33,11 @@ fun IntercomDevice.toEntity() = IntercomEntity(
     speakerVolume = speakerVolume,
     timezoneMode = timezoneMode.code,
     firstRelay = firstRelay?.id,
-    secondRelay = secondRelay?.id
+    secondRelay = secondRelay?.id,
+    cliNumber = cliNumber ?: "",
+    cliLocation = cliLocation,
+    deliveryCode = deliveryCode ?: "",
+    deliveryCodeLocation = deliveryCodeLocation
 )
 
 fun IntercomEntity.toIntercomDevice() = IntercomDevice(
@@ -57,7 +65,11 @@ fun IntercomWithRelay.toIntercomDevice() = IntercomDevice(
     speakerVolume = intercom.speakerVolume,
     timezoneMode = TimezoneMode.entries.first { it.code == intercom.timezoneMode },
     firstRelay = firstRelay?.toRelay(),
-    secondRelay = secondRelay?.toRelay()
+    secondRelay = secondRelay?.toRelay(),
+    cliLocation = intercom.cliLocation,
+    cliNumber = intercom.cliNumber,
+    deliveryCode = intercom.deliveryCode,
+    deliveryCodeLocation = intercom.deliveryCodeLocation
 )
 
 enum class TimezoneMode(val code: String) {

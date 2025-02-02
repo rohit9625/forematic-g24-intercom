@@ -67,4 +67,18 @@ class CommandParserTest {
         assertEquals("04", micVolume)
         assertEquals("03", speakerVolume)
     }
+
+    @Test
+    fun `test parseCommand with valid timezone mode command`() {
+        val messages = listOf("1234#HOLS#", "1234#FREE#", "1234#DAY#", "1234#NIGHT#")
+        val modes = listOf("HOLS", "FREE", "DAY", "NIGHT")
+        val expectedCommand = IntercomCommand.SET_TIMEZONE_MODE
+
+        for ((message, expectedMode) in messages.zip(modes)) {
+            val (command, actualMode) = CommandParser.parseCommand(message)
+
+            assertEquals(expectedCommand, command)
+            assertEquals(expectedMode, actualMode)
+        }
+    }
 }

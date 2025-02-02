@@ -7,16 +7,16 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "relays")
 data class RelayEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0,
 
     @ColumnInfo(name = "output_name")
-    val outputName: String,
+    val outputName: String? = null,
 
     @ColumnInfo(name = "keypad_code")
-    val keypadCode: String,
+    val keypadCode: String? = null,
 
     @ColumnInfo(name = "keypad_code_location")
-    val keypadCodeLocation: Int,
+    val keypadCodeLocation: String,
 
     @ColumnInfo(name = "relay_time")
     val relayTime: Int

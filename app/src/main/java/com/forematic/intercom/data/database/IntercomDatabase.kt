@@ -12,7 +12,7 @@ import com.forematic.intercom.data.database.entity.RelayEntity
 
 @Database(
     entities = [IntercomEntity::class, RelayEntity::class],
-    version = 5
+    version = 6
 )
 abstract class IntercomDatabase: RoomDatabase() {
     abstract val intercomDao: IntercomDao

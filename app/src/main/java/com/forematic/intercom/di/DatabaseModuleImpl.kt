@@ -9,6 +9,7 @@ import com.forematic.intercom.data.database.IntercomDatabase
 import com.forematic.intercom.data.database.MessageDatabase
 import com.forematic.intercom.data.database.dao.IntercomDao
 import com.forematic.intercom.data.database.dao.MessageDao
+import com.forematic.intercom.data.database.dao.RelayDao
 import com.forematic.intercom.data.sms.MessageHandler
 
 class DatabaseModuleImpl(private val context: Context): DatabaseModule {
@@ -23,8 +24,13 @@ class DatabaseModuleImpl(private val context: Context): DatabaseModule {
     override val messageDao: MessageDao by lazy {
         messageDatabase.messageDao
     }
+
+    override val relayDao: RelayDao by lazy {
+        intercomDatabase.relayDao
+    }
+
     override val intercomDataSource: IntercomDataSource by lazy {
-        IntercomDataSource(intercomDao)
+        IntercomDataSource(intercomDao, relayDao)
     }
 
     override val messageDataSource: MessageDataSource by lazy {

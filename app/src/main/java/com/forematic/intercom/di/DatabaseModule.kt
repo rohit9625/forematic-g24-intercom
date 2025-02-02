@@ -7,6 +7,7 @@ import com.forematic.intercom.data.database.IntercomDatabase
 import com.forematic.intercom.data.database.MessageDatabase
 import com.forematic.intercom.data.database.dao.IntercomDao
 import com.forematic.intercom.data.database.dao.MessageDao
+import com.forematic.intercom.data.database.dao.RelayDao
 import com.forematic.intercom.data.sms.MessageHandler
 
 interface DatabaseModule {
@@ -15,6 +16,8 @@ interface DatabaseModule {
     val messageDatabase: MessageDatabase
 
     val intercomDao: IntercomDao
+
+    val relayDao: RelayDao
 
     val messageDao: MessageDao
 

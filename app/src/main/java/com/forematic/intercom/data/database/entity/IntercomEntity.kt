@@ -54,8 +54,8 @@ data class IntercomEntity(
     val timezoneMode: String,
 
     @ColumnInfo(name = "first_relay")
-    val firstRelay: Int? = null,
+    val firstRelay: Long? = null,
 
     @ColumnInfo(name = "second_relay")
-    val secondRelay: Int? = null
+    val secondRelay: Long? = null
 )

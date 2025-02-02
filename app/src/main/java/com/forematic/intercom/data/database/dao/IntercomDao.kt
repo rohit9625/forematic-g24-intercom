@@ -33,6 +33,9 @@ interface IntercomDao {
     @Query("UPDATE intercom SET speaker_volume = :newVolume WHERE id = 1")
     suspend fun updateSpeakerVolume(newVolume: Int)
 
+    @Query("UPDATE intercom SET timezone_mode = :mode WHERE id = 1")
+    suspend fun updateTimezoneMode(mode: String)
+
     @Query("SELECT * FROM intercom WHERE id = 1")
     fun getIntercomDevice(): Flow<IntercomEntity>
 }

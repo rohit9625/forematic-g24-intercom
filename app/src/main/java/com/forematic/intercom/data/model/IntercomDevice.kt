@@ -11,7 +11,8 @@ data class IntercomDevice(
     val secondCallOutNumber: String? = null,
     val thirdCallOutNumber: String? = null,
     val micVolume: Int = 0,
-    val speakerVolume: Int = 0
+    val speakerVolume: Int = 0,
+    val timezoneMode: TimezoneMode = TimezoneMode.FREE
 )
 
 fun IntercomDevice.toEntity() = IntercomEntity(
@@ -22,7 +23,8 @@ fun IntercomDevice.toEntity() = IntercomEntity(
     secondCallOutNumber = secondCallOutNumber ?: "",
     thirdCallOutNumber = thirdCallOutNumber ?: "",
     micVolume = micVolume,
-    speakerVolume = speakerVolume
+    speakerVolume = speakerVolume,
+    timezoneMode = timezoneMode.code
 )
 
 fun IntercomEntity.toIntercomDevice() = IntercomDevice(
@@ -34,5 +36,13 @@ fun IntercomEntity.toIntercomDevice() = IntercomDevice(
     secondCallOutNumber = secondCallOutNumber.ifBlank { null },
     thirdCallOutNumber = thirdCallOutNumber.ifBlank { null },
     micVolume = micVolume,
-    speakerVolume = speakerVolume
+    speakerVolume = speakerVolume,
+    timezoneMode = TimezoneMode.entries.first { it.code == timezoneMode }
 )
+
+enum class TimezoneMode(val code: String) {
+    FREE("FREE"),
+    NIGHT("NIGHT"),
+    DAY("DAY"),
+    HOLIDAY("HOLS")
+}

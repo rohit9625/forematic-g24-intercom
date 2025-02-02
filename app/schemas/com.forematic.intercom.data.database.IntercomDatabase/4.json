@@ -1,0 +1,88 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "00c2db901de36c190c388e27cb10c072",
+    "entities": [
+      {
+        "tableName": "intercom",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `programming_password` TEXT NOT NULL, `signal_strength` INTEGER NOT NULL, `admin_number` TEXT NOT NULL, `first_call_out_number` TEXT NOT NULL, `second_call_out_number` TEXT NOT NULL, `third_call_out_number` TEXT NOT NULL, `mic_volume` INTEGER NOT NULL, `speaker_volume` INTEGER NOT NULL, `timezone_mode` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "programmingPassword",
+            "columnName": "programming_password",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "signalStrength",
+            "columnName": "signal_strength",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "adminNumber",
+            "columnName": "admin_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "firstCallOutNumber",
+            "columnName": "first_call_out_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "secondCallOutNumber",
+            "columnName": "second_call_out_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "thirdCallOutNumber",
+            "columnName": "third_call_out_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "micVolume",
+            "columnName": "mic_volume",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "speakerVolume",
+            "columnName": "speaker_volume",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timezoneMode",
+            "columnName": "timezone_mode",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '00c2db901de36c190c388e27cb10c072')"
+    ]
+  }
+}

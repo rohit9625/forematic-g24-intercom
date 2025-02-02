@@ -122,6 +122,15 @@ class MessageReceiver(
                     }
                 }
             }
+
+            IntercomCommand.SET_TIMEZONE_MODE -> {
+                extractedData?.let { mode ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        intercomDataSource.setTimezoneMode(mode)
+                        messageHandler.sendTextMessage(phoneNumber, "Mode changed to $mode")
+                    }
+                }
+            }
         }
     }
 

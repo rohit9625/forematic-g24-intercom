@@ -40,6 +40,10 @@ class IntercomDataSource(
         intercomDao.updateSpeakerVolume(newVolume)
     }
 
+    suspend fun setTimezoneMode(mode: String) {
+        intercomDao.updateTimezoneMode(mode)
+    }
+
     fun getIntercomDevice(): Flow<IntercomDevice> {
         return intercomDao.getIntercomDevice().transform {
             it?.let {

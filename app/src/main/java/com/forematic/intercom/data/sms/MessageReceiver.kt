@@ -155,7 +155,47 @@ class MessageReceiver(
                 }
             }
 
-            IntercomCommand.SET_RELAY_KEYPAD_CODE -> TODO()
+            IntercomCommand.SET_RELAY_KEYPAD_CODE -> {
+                extractedData?.let { data ->
+                    setRelayKeypadCodeAndRespond(phoneNumber, data.firstValue?.toIntOrNull(), data.secondValue )
+                }
+            }
+        }
+    }
+
+    private fun setRelayKeypadCodeAndRespond(phoneNumber: String, keypadLocation: Int?, keypadCode: String?) {
+        if(keypadLocation != null && keypadCode != null) {
+            when(getRelayIdFromLocation(keypadLocation) ?: 0) {
+                1 -> setKeypadCodeAndSendResponse(phoneNumber, 1, keypadCode)
+                2 -> setKeypadCodeAndSendResponse(phoneNumber, 2, keypadCode)
+                3 -> setDeliverCodeAndSendResponse(phoneNumber, keypadCode)
+                else -> {
+                    messageHandler.sendTextMessage(phoneNumber, "Invalid keypad location")
+                }
+            }
+        }
+    }
+
+    private fun setDeliverCodeAndSendResponse(recipient: String, deliveryCode: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            intercomDataSource.setDeliveryCode(deliveryCode)
+            messageHandler.sendTextMessage(recipient, "Delivery code updated successfully")
+        }
+    }
+
+    private fun setKeypadCodeAndSendResponse(recipient: String, relayId: Long, keypadCode: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            intercomDataSource.setKeypadCode(relayId, keypadCode)
+            messageHandler.sendTextMessage(recipient, "Keypad code updated successfully")
+        }
+    }
+
+    private fun getRelayIdFromLocation(location: Int): Int? {
+        return when (location) {
+            in 1..100 -> 1
+            in 101..150 -> 2
+            in 151..200 -> 3
+            else -> null
         }
     }
 

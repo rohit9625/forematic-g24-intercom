@@ -258,9 +258,8 @@ class MessageReceiver(
 
     private fun sendSignalStrengthResponse(phoneNumber: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            intercomDataSource.getIntercomDevice().collectLatest {
-                messageHandler.sendTextMessage(phoneNumber, "RSSI is ${it.signalStrength}")
-            }
+            val strength = intercomDataSource.getIntercomDevice().first().signalStrength
+            messageHandler.sendTextMessage(phoneNumber, "RSSI is $strength")
         }
     }
 }

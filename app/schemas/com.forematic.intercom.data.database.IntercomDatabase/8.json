@@ -1,0 +1,197 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 8,
+    "identityHash": "bbbbcac03e4d83b7ba77696cbf36b27a",
+    "entities": [
+      {
+        "tableName": "intercom",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `programming_password` TEXT NOT NULL, `signal_strength` INTEGER NOT NULL, `admin_number` TEXT NOT NULL, `first_call_out_number` TEXT NOT NULL, `second_call_out_number` TEXT NOT NULL, `third_call_out_number` TEXT NOT NULL, `mic_volume` INTEGER NOT NULL, `speaker_volume` INTEGER NOT NULL, `timezone_mode` TEXT NOT NULL, `first_relay` INTEGER, `second_relay` INTEGER, `cli_number` TEXT NOT NULL, `cli_location` TEXT NOT NULL, `cli_mode` TEXT NOT NULL, `delivery_code` TEXT NOT NULL, `delivery_code_location` TEXT NOT NULL, FOREIGN KEY(`first_relay`) REFERENCES `relays`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`second_relay`) REFERENCES `relays`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "programmingPassword",
+            "columnName": "programming_password",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "signalStrength",
+            "columnName": "signal_strength",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "adminNumber",
+            "columnName": "admin_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "firstCallOutNumber",
+            "columnName": "first_call_out_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "secondCallOutNumber",
+            "columnName": "second_call_out_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "thirdCallOutNumber",
+            "columnName": "third_call_out_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "micVolume",
+            "columnName": "mic_volume",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "speakerVolume",
+            "columnName": "speaker_volume",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timezoneMode",
+            "columnName": "timezone_mode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "firstRelay",
+            "columnName": "first_relay",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "secondRelay",
+            "columnName": "second_relay",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cliNumber",
+            "columnName": "cli_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cliLocation",
+            "columnName": "cli_location",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cliMode",
+            "columnName": "cli_mode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deliveryCode",
+            "columnName": "delivery_code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deliveryCodeLocation",
+            "columnName": "delivery_code_location",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "relays",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "first_relay"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "relays",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "second_relay"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "relays",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `output_name` TEXT, `keypad_code` TEXT, `keypad_code_location` TEXT NOT NULL, `relay_time` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "outputName",
+            "columnName": "output_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "keypadCode",
+            "columnName": "keypad_code",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "keypadCodeLocation",
+            "columnName": "keypad_code_location",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "relayTime",
+            "columnName": "relay_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bbbbcac03e4d83b7ba77696cbf36b27a')"
+    ]
+  }
+}

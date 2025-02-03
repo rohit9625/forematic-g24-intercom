@@ -26,7 +26,8 @@ object CommandParser {
             IntercomCommand.SET_TIMEZONE_MODE,
             IntercomCommand.SET_RELAY1_TIME,
             IntercomCommand.SET_RELAY2_TIME,
-            IntercomCommand.SET_CLI_NUMBER -> {
+            IntercomCommand.SET_CLI_NUMBER,
+            IntercomCommand.SET_CLI_MODE -> {
                 val match = command.pattern.toRegex().find(message)
                 val firstValue = match?.groupValues?.get(1)
                 CommandData(firstValue)

@@ -12,6 +12,7 @@ enum class IntercomCommand(val pattern: String) {
     SET_TIMEZONE_MODE("\\d{4}#(FREE|NIGHT|DAY|HOLS)#"),
 
     // CLI Commands
+    SET_CLI_MODE("\\d{4}#(ANY|AUTH)#"),
     SET_CLI_NUMBER("\\d{4}#11#201#(\\d{8,11})#"),
     FIND_NEXT_CLI_LOCATION("\\d{4}#CIA\\?#"),
 

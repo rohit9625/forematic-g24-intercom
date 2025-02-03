@@ -131,4 +131,15 @@ class CommandParserTest {
         assertEquals("001", data?.firstValue) // For location parameter
         assertEquals("1066", data?.secondValue) // For code parameter
     }
+
+    @Test
+    fun `parseCommand should correctly identify SET_CLI_MODE command`() {
+        val (command1, data1) = CommandParser.parseCommand("1234#ANY#")
+        val (command2, data2) = CommandParser.parseCommand("1234#AUTH#")
+
+        assertEquals(IntercomCommand.SET_CLI_MODE, command1)
+        assertEquals(IntercomCommand.SET_CLI_MODE, command2)
+        assertEquals("ANY", data1?.firstValue)
+        assertEquals("AUTH", data2?.firstValue)
+    }
 }

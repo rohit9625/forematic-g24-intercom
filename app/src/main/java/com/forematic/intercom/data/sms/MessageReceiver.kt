@@ -160,6 +160,10 @@ class MessageReceiver(
                     setRelayKeypadCodeAndRespond(phoneNumber, data.firstValue?.toIntOrNull(), data.secondValue )
                 }
             }
+
+            IntercomCommand.SET_CLI_MODE -> {
+                /*TODO("Update CLI mode in the intercom table")*/
+            }
         }
     }
 

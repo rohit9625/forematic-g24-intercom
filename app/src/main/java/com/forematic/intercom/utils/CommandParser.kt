@@ -27,16 +27,15 @@ object CommandParser {
             IntercomCommand.SET_RELAY1_TIME,
             IntercomCommand.SET_RELAY2_TIME,
             IntercomCommand.SET_CLI_NUMBER -> {
-                val match = IntercomCommand.PROGRAMMING_PASSWORD.pattern.toRegex().find(message)
+                val match = command.pattern.toRegex().find(message)
                 val firstValue = match?.groupValues?.get(1)
-                val secondValue = match?.groupValues?.get(2)
-                CommandData(firstValue, secondValue)
+                CommandData(firstValue)
             }
 
             IntercomCommand.SET_RELAY_KEYPAD_CODE -> {
                 val match = command.pattern.toRegex().find(message)
                 val location = match?.groupValues?.get(1) // Extract keypad code location
-                val code = match?.groupValues?.get(2) // Extract keypad code
+                val code = match?.groupValues?.getOrNull(2) // Extract keypad code
                 CommandData(location, code)
             }
 

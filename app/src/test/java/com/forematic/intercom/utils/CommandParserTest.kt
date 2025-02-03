@@ -11,7 +11,7 @@ class CommandParserTest {
         val (command, extractedData) = CommandParser.parseCommand(message)
 
         assertEquals(IntercomCommand.PROGRAMMING_PASSWORD, command)
-        assertEquals("1234", extractedData)
+        assertEquals("1234", extractedData?.firstValue)
     }
 
     @Test
@@ -29,7 +29,7 @@ class CommandParserTest {
         val (command, extractedData) = CommandParser.parseCommand(message)
 
         assertEquals(IntercomCommand.ADD_ADMIN_NUMBER, command)
-        assertEquals("07836975319", extractedData)
+        assertEquals("07836975319", extractedData?.firstValue)
     }
 
     @Test
@@ -50,7 +50,7 @@ class CommandParserTest {
             val (command, extractedData) = CommandParser.parseCommand(message)
 
             assertEquals(expectedCommand, command)
-            assertEquals(expectedData, extractedData)
+            assertEquals(expectedData, extractedData?.firstValue)
         }
     }
 
@@ -59,13 +59,13 @@ class CommandParserTest {
         val micVolumeCommand = "1234#MIC#04#"
         val speakerVolumeCommand = "1234#SP#03#"
 
-        val (micCommand, micVolume) = CommandParser.parseCommand(micVolumeCommand)
-        val (speakerCommand, speakerVolume) = CommandParser.parseCommand(speakerVolumeCommand)
+        val (micCommand, micCommandData) = CommandParser.parseCommand(micVolumeCommand)
+        val (speakerCommand, speakerCommandData) = CommandParser.parseCommand(speakerVolumeCommand)
 
         assertEquals(IntercomCommand.SET_MIC_VOLUME, micCommand)
         assertEquals(IntercomCommand.SET_SPEAKER_VOLUME, speakerCommand)
-        assertEquals("04", micVolume)
-        assertEquals("03", speakerVolume)
+        assertEquals("04", micCommandData?.firstValue)
+        assertEquals("03", speakerCommandData?.firstValue)
     }
 
     @Test
@@ -75,10 +75,10 @@ class CommandParserTest {
         val expectedCommand = IntercomCommand.SET_TIMEZONE_MODE
 
         for ((message, expectedMode) in messages.zip(modes)) {
-            val (command, actualMode) = CommandParser.parseCommand(message)
+            val (command, extractedData) = CommandParser.parseCommand(message)
 
             assertEquals(expectedCommand, command)
-            assertEquals(expectedMode, actualMode)
+            assertEquals(expectedMode, extractedData?.firstValue)
         }
     }
 
@@ -86,25 +86,41 @@ class CommandParserTest {
     fun `parseCommand should correctly identify SET_RELAY1_TIME command`() {
         val (command, extractedData) = CommandParser.parseCommand("1234#RL1T#02#")
         assertEquals(IntercomCommand.SET_RELAY1_TIME, command)
-        assertEquals("02", extractedData)
+        assertEquals("02", extractedData?.firstValue)
     }
 
     @Test
     fun `parseCommand should correctly identify SET_RELAY2_TIME command`() {
         val (command, extractedData) = CommandParser.parseCommand("1234#RL2T#10#")
         assertEquals(IntercomCommand.SET_RELAY2_TIME, command)
-        assertEquals("10", extractedData)
+        assertEquals("10", extractedData?.firstValue)
     }
 
     @Test
     fun `parseCommand should correctly identify FIND_NEXT_RELAY1_LOCATION command`() {
-        val (command, _) = CommandParser.parseCommand("1234#R1A?#")
+        val (command, data) = CommandParser.parseCommand("1234#R1A?#")
         assertEquals(IntercomCommand.FIND_NEXT_RELAY1_LOCATION, command)
+        assertEquals(null, data)
     }
 
     @Test
     fun `parseCommand should correctly identify FIND_NEXT_RELAY2_LOCATION command`() {
-        val (command, _) = CommandParser.parseCommand("1234#R2A?#")
+        val (command, data) = CommandParser.parseCommand("1234#R2A?#")
         assertEquals(IntercomCommand.FIND_NEXT_RELAY2_LOCATION, command)
+        assertEquals(null, data)
+    }
+
+    @Test
+    fun `parseCommand should identity FIND_NEXT_CLI_LOCATION command`() {
+        val (command, data) = CommandParser.parseCommand("1234#CIA?#")
+        assertEquals(IntercomCommand.FIND_NEXT_CLI_LOCATION, command)
+        assertEquals(null, data)
+    }
+
+    @Test
+    fun `parseCommand should identify FIND_DELIVERY_CODE_LOCATION command`() {
+        val (command, data) = CommandParser.parseCommand("1234#SUA?#")
+        assertEquals(IntercomCommand.FIND_DELIVERY_CODE_LOCATION, command)
+        assertEquals(null, data)
     }
 }

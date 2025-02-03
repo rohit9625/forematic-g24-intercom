@@ -123,4 +123,12 @@ class CommandParserTest {
         assertEquals(IntercomCommand.FIND_DELIVERY_CODE_LOCATION, command)
         assertEquals(null, data)
     }
+
+    @Test
+    fun `parseCommand should correctly identify SET_KEYPAD_CODE command`() {
+        val (command, data) = CommandParser.parseCommand("1234#11#001#1066#")
+        assertEquals(IntercomCommand.SET_RELAY_KEYPAD_CODE, command)
+        assertEquals("001", data?.firstValue) // For location parameter
+        assertEquals("1066", data?.secondValue) // For code parameter
+    }
 }

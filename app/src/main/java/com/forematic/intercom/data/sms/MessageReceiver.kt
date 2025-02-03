@@ -8,6 +8,7 @@ import android.util.Log
 import com.forematic.intercom.data.IntercomDataSource
 import com.forematic.intercom.data.MessageDataSource
 import com.forematic.intercom.data.model.CallOutNumber
+import com.forematic.intercom.data.model.CommandData
 import com.forematic.intercom.data.model.IntercomCommand
 import com.forematic.intercom.data.model.Message
 import com.forematic.intercom.utils.CommandParser
@@ -62,11 +63,11 @@ class MessageReceiver(
         return PhoneNumberUtils.arePhoneNumbersEqual(adminNumber, sender)
     }
 
-    private fun handleCommand(phoneNumber: String, command: IntercomCommand, extractedData: String?) {
+    private fun handleCommand(phoneNumber: String, command: IntercomCommand, extractedData: CommandData?) {
         when(command) {
             IntercomCommand.PROGRAMMING_PASSWORD -> {
                 extractedData?.let {
-                    updatePasswordAndSendResponse(phoneNumber, it)
+                    updatePasswordAndSendResponse(phoneNumber, it.firstValue ?: "1234")
                 }
             }
 
@@ -75,7 +76,7 @@ class MessageReceiver(
             IntercomCommand.ADD_ADMIN_NUMBER -> {
                 extractedData?.let {
                     CoroutineScope(Dispatchers.IO).launch {
-                        intercomDataSource.changeAdminNumber(it)
+                        intercomDataSource.changeAdminNumber(it.firstValue!!)
                         messageHandler.sendTextMessage(phoneNumber, "SUCCESS")
                     }
                 }
@@ -84,7 +85,7 @@ class MessageReceiver(
             IntercomCommand.SET_CALLOUT_1 -> {
                 extractedData?.let {
                     CoroutineScope(Dispatchers.IO).launch {
-                        intercomDataSource.setCallOutNumber(it, CallOutNumber.FIRST)
+                        intercomDataSource.setCallOutNumber(it.firstValue!!, CallOutNumber.FIRST)
                         messageHandler.sendTextMessage(phoneNumber, "SUCCESS")
                     }
                 }
@@ -92,7 +93,7 @@ class MessageReceiver(
             IntercomCommand.SET_CALLOUT_2 -> {
                 extractedData?.let {
                     CoroutineScope(Dispatchers.IO).launch {
-                        intercomDataSource.setCallOutNumber(it, CallOutNumber.SECOND)
+                        intercomDataSource.setCallOutNumber(it.firstValue!!, CallOutNumber.SECOND)
                         messageHandler.sendTextMessage(phoneNumber, "SUCCESS")
                     }
                 }
@@ -100,7 +101,7 @@ class MessageReceiver(
             IntercomCommand.SET_CALLOUT_3 -> {
                 extractedData?.let {
                     CoroutineScope(Dispatchers.IO).launch {
-                        intercomDataSource.setCallOutNumber(it, CallOutNumber.THIRD)
+                        intercomDataSource.setCallOutNumber(it.firstValue!!, CallOutNumber.THIRD)
                         messageHandler.sendTextMessage(phoneNumber, "SUCCESS")
                     }
                 }
@@ -109,7 +110,7 @@ class MessageReceiver(
             IntercomCommand.SET_MIC_VOLUME -> {
                 extractedData?.let {
                     CoroutineScope(Dispatchers.IO).launch {
-                        intercomDataSource.setMicVolume(it.toIntOrNull() ?: 0)
+                        intercomDataSource.setMicVolume(it.firstValue?.toIntOrNull() ?: 0)
                         messageHandler.sendTextMessage(phoneNumber, "SUCCESS")
                     }
                 }
@@ -117,29 +118,29 @@ class MessageReceiver(
             IntercomCommand.SET_SPEAKER_VOLUME -> {
                 extractedData?.let {
                     CoroutineScope(Dispatchers.IO).launch {
-                        intercomDataSource.setSpeakerVolume(it.toIntOrNull() ?: 0)
+                        intercomDataSource.setSpeakerVolume(it.firstValue?.toIntOrNull() ?: 0)
                         messageHandler.sendTextMessage(phoneNumber, "SUCCESS")
                     }
                 }
             }
 
             IntercomCommand.SET_TIMEZONE_MODE -> {
-                extractedData?.let { mode ->
+                extractedData?.let { data ->
                     CoroutineScope(Dispatchers.IO).launch {
-                        intercomDataSource.setTimezoneMode(mode)
-                        messageHandler.sendTextMessage(phoneNumber, "Mode changed to $mode")
+                        intercomDataSource.setTimezoneMode(data.firstValue!!)
+                        messageHandler.sendTextMessage(phoneNumber, "Mode changed to ${data.firstValue}")
                     }
                 }
             }
 
             IntercomCommand.SET_RELAY1_TIME -> {
                 extractedData?.let {
-                    updateRelayTime(phoneNumber, 1, it.toIntOrNull() ?: 5)
+                    updateRelayTime(phoneNumber, 1, it.firstValue?.toIntOrNull() ?: 5)
                 }
             }
             IntercomCommand.SET_RELAY2_TIME -> {
                 extractedData?.let {
-                    updateRelayTime(phoneNumber, 2, it.toIntOrNull() ?: 5)
+                    updateRelayTime(phoneNumber, 2, it.firstValue?.toIntOrNull() ?: 5)
                 }
             }
 
@@ -149,10 +150,12 @@ class MessageReceiver(
             IntercomCommand.FIND_DELIVERY_CODE_LOCATION -> sendDeliveryCodeLocation(phoneNumber)
 
             IntercomCommand.SET_CLI_NUMBER -> {
-                extractedData?.let { cliNumber ->
-                    setCliNumberAndSendResponse(phoneNumber, cliNumber)
+                extractedData?.let { data ->
+                    setCliNumberAndSendResponse(phoneNumber, data.firstValue!!)
                 }
             }
+
+            IntercomCommand.SET_RELAY_KEYPAD_CODE -> TODO()
         }
     }
 

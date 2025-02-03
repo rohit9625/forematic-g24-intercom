@@ -1,9 +1,10 @@
 package com.forematic.intercom.utils
 
+import com.forematic.intercom.data.model.CommandData
 import com.forematic.intercom.data.model.IntercomCommand
 
 object CommandParser {
-    fun parseCommand(message: String): Pair<IntercomCommand?, String?> {
+    fun parseCommand(message: String): Pair<IntercomCommand?, CommandData?> {
         val command = IntercomCommand.fromMessage(message)
         return if (command != null) {
             val extractedData = extractData(command, message)
@@ -13,45 +14,30 @@ object CommandParser {
         }
     }
 
-    private fun extractData(command: IntercomCommand, message: String): String? {
+    private fun extractData(command: IntercomCommand, message: String): CommandData? {
         return when (command) {
-            IntercomCommand.PROGRAMMING_PASSWORD -> {
-                val match = IntercomCommand.PROGRAMMING_PASSWORD.pattern.toRegex().find(message)
-                match?.groupValues?.get(1) // Extract the new password
-            }
-
-            IntercomCommand.ADD_ADMIN_NUMBER -> {
-                val match = IntercomCommand.ADD_ADMIN_NUMBER.pattern.toRegex().find(message)
-                match?.groupValues?.get(1) // Extracts the admin phone number
-            }
-
+            IntercomCommand.PROGRAMMING_PASSWORD,
+            IntercomCommand.ADD_ADMIN_NUMBER,
             IntercomCommand.SET_CALLOUT_1,
             IntercomCommand.SET_CALLOUT_2,
-            IntercomCommand.SET_CALLOUT_3 -> {
-                val match = command.pattern.toRegex().find(message)
-                match?.groupValues?.get(1) // Extract the callout number
-            }
-
+            IntercomCommand.SET_CALLOUT_3,
             IntercomCommand.SET_MIC_VOLUME,
-            IntercomCommand.SET_SPEAKER_VOLUME -> {
-                val match = command.pattern.toRegex().find(message)
-                match?.groupValues?.get(1) // Extract the volume level
-            }
-
-            IntercomCommand.SET_TIMEZONE_MODE -> {
-                val match = command.pattern.toRegex().find(message)
-                match?.groupValues?.get(1) // Extract the timezone mode
-            }
-
+            IntercomCommand.SET_SPEAKER_VOLUME,
+            IntercomCommand.SET_TIMEZONE_MODE,
             IntercomCommand.SET_RELAY1_TIME,
-            IntercomCommand.SET_RELAY2_TIME -> {
-                val match = command.pattern.toRegex().find(message)
-                match?.groupValues?.get(1) // Extracts relay time value
+            IntercomCommand.SET_RELAY2_TIME,
+            IntercomCommand.SET_CLI_NUMBER -> {
+                val match = IntercomCommand.PROGRAMMING_PASSWORD.pattern.toRegex().find(message)
+                val firstValue = match?.groupValues?.get(1)
+                val secondValue = match?.groupValues?.get(2)
+                CommandData(firstValue, secondValue)
             }
 
-            IntercomCommand.SET_CLI_NUMBER -> {
+            IntercomCommand.SET_RELAY_KEYPAD_CODE -> {
                 val match = command.pattern.toRegex().find(message)
-                match?.groupValues?.get(1) // Extracts the CLI number
+                val location = match?.groupValues?.get(1) // Extract keypad code location
+                val code = match?.groupValues?.get(2) // Extract keypad code
+                CommandData(location, code)
             }
 
             else -> null // For now, other commands may not have additional data to extract

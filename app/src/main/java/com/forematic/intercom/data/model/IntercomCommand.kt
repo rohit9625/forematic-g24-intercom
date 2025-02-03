@@ -22,7 +22,8 @@ enum class IntercomCommand(val pattern: String) {
     SET_RELAY1_TIME("\\d{4}#RL1T#(\\d{2})#"),
     SET_RELAY2_TIME("\\d{4}#RL2T#(\\d{2})#"),
     FIND_NEXT_RELAY1_LOCATION("\\d{4}#R1A\\?#"),
-    FIND_NEXT_RELAY2_LOCATION("\\d{4}#R2A\\?#");
+    FIND_NEXT_RELAY2_LOCATION("\\d{4}#R2A\\?#"),
+    SET_RELAY_KEYPAD_CODE("\\d{4}#11#(\\d{3})#(\\d{2,8})#");
 
     companion object  {
         fun fromMessage(message: String): IntercomCommand? {

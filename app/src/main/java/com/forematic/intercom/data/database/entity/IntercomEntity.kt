@@ -65,6 +65,9 @@ data class IntercomEntity(
     @ColumnInfo(name = "cli_location")
     val cliLocation: String,
 
+    @ColumnInfo(name = "cli_mode")
+    val cliMode: String,
+
     @ColumnInfo(name = "delivery_code")
     val deliveryCode: String,
 

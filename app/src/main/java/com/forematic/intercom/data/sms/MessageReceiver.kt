@@ -162,8 +162,17 @@ class MessageReceiver(
             }
 
             IntercomCommand.SET_CLI_MODE -> {
-                /*TODO("Update CLI mode in the intercom table")*/
+                extractedData?.let { data ->
+                    setCliModeAndSendResponse(phoneNumber, data.firstValue ?: "ANY")
+                }
             }
+        }
+    }
+
+    private fun setCliModeAndSendResponse(phoneNumber: String, cliMode: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            intercomDataSource.setCliMode(cliMode)
+            messageHandler.sendTextMessage(phoneNumber, "CLI mode changed to $cliMode")
         }
     }
 

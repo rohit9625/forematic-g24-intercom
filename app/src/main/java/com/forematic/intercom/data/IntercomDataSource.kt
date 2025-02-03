@@ -71,6 +71,10 @@ class IntercomDataSource(
         intercomDao.updateCliNumber(number)
     }
 
+    suspend fun setCliMode(mode: String) {
+        intercomDao.updateCliMode(mode)
+    }
+
     suspend fun setDeliveryCode(code: String) {
         intercomDao.updateDeliveryCode(code)
     }

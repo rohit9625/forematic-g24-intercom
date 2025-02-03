@@ -18,6 +18,7 @@ data class IntercomDevice(
     val secondRelay: Relay? = null,
     val cliNumber: String? = null,
     val cliLocation: String = "201",
+    val cliMode: String = "ANY",
     val deliveryCode: String? = null,
     val deliveryCodeLocation: String = "158"
 )
@@ -36,6 +37,7 @@ fun IntercomDevice.toEntity() = IntercomEntity(
     secondRelay = secondRelay?.id,
     cliNumber = cliNumber ?: "",
     cliLocation = cliLocation,
+    cliMode = cliMode,
     deliveryCode = deliveryCode ?: "",
     deliveryCodeLocation = deliveryCodeLocation
 )
@@ -68,6 +70,7 @@ fun IntercomWithRelay.toIntercomDevice() = IntercomDevice(
     secondRelay = secondRelay?.toRelay(),
     cliLocation = intercom.cliLocation,
     cliNumber = intercom.cliNumber,
+    cliMode = intercom.cliMode,
     deliveryCode = intercom.deliveryCode,
     deliveryCodeLocation = intercom.deliveryCodeLocation
 )

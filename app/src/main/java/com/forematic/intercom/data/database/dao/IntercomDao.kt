@@ -41,6 +41,9 @@ interface IntercomDao {
     @Query("UPDATE intercom SET cli_number = :number WHERE id = 1")
     suspend fun updateCliNumber(number: String)
 
+    @Query("UPDATE intercom SET cli_mode = :mode WHERE id = 1")
+    suspend fun updateCliMode(mode: String)
+
     @Query("UPDATE intercom SET delivery_code = :code WHERE id = 1")
     suspend fun updateDeliveryCode(code: String)
 

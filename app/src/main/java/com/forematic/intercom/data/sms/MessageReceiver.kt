@@ -18,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlin.reflect.typeOf
 
 class MessageReceiver(
     private val intercomDataSource: IntercomDataSource,
@@ -26,11 +27,12 @@ class MessageReceiver(
 ): BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         val extras = intent?.extras
-        Log.d("IntercomMessageReceiver", "onReceive called")
+
         if(extras != null) {
             val pdus = extras.get("pdus") as Array<*>
+            val messageFormat = extras.getString("format")
             for (pdu in pdus) {
-                val sms = SmsMessage.createFromPdu(pdu as ByteArray)
+                val sms = SmsMessage.createFromPdu(pdu as ByteArray, messageFormat)
                 val sender = sms.originatingAddress
                 val messageBody = sms.messageBody
 

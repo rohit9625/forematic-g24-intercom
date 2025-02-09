@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.telephony.SmsMessage
-import android.util.Log
 import com.forematic.intercom.data.IntercomDataSource
 import com.forematic.intercom.data.MessageDataSource
 import com.forematic.intercom.data.model.CallOutNumber
@@ -15,10 +14,8 @@ import com.forematic.intercom.utils.CommandParser
 import com.forematic.intercom.utils.PhoneNumberUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlin.reflect.typeOf
 
 class MessageReceiver(
     private val intercomDataSource: IntercomDataSource,
@@ -180,6 +177,16 @@ class MessageReceiver(
                     setRelayOutputName(phoneNumber, 2, it.firstValue ?: "")
                 }
             }
+
+            IntercomCommand.GET_RELAY1_OUTPUT_NAME -> sendRelayOutputName(phoneNumber, 1)
+            IntercomCommand.GET_RELAY2_OUTPUT_NAME -> sendRelayOutputName(phoneNumber, 2)
+        }
+    }
+
+    private fun sendRelayOutputName(phoneNumber: String, relayId: Long) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val outputName = intercomDataSource.getRelayById(relayId).outputName
+            messageHandler.sendTextMessage(phoneNumber, "Output name is $outputName")
         }
     }
 

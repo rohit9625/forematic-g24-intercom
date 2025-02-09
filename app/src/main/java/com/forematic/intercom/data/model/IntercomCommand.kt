@@ -22,6 +22,8 @@ enum class IntercomCommand(val pattern: String) {
     // Relay Commands
     SET_RELAY1_OUTPUT_NAME("\\d{4}#ID1#([A-Za-z ]+?)#"),
     SET_RELAY2_OUTPUT_NAME("\\d{4}#ID2#([A-Za-z ]+?)#"),
+    GET_RELAY1_OUTPUT_NAME("\\d{4}#ID1\\?#"),
+    GET_RELAY2_OUTPUT_NAME("\\d{4}#ID2\\?#"),
     SET_RELAY1_TIME("\\d{4}#RL1T#(\\d{2})#"),
     SET_RELAY2_TIME("\\d{4}#RL2T#(\\d{2})#"),
     FIND_NEXT_RELAY1_LOCATION("\\d{4}#R1A\\?#"),

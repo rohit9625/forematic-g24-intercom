@@ -83,6 +83,55 @@ class CommandParserTest {
     }
 
     @Test
+    fun `parseCommand should correctly extract Relay 1 Output Name`() {
+        val (command, extractedData) = CommandParser.parseCommand("1234#ID1#Big gate#")
+        assertEquals(IntercomCommand.SET_RELAY1_OUTPUT_NAME, command)
+        assertEquals("Big gate", extractedData?.firstValue)
+    }
+
+    @Test
+    fun `parseCommand should correctly extract Relay 2 Output Name`() {
+        val (command, extractedData) = CommandParser.parseCommand("1234#ID2#Jaguar#")
+        assertEquals(IntercomCommand.SET_RELAY2_OUTPUT_NAME, command)
+        assertEquals("Jaguar", extractedData?.firstValue)
+    }
+
+    @Test
+    fun `parseCommand should reject Relay 1 Output Name with special characters`() {
+        val (command, extractedData) = CommandParser.parseCommand("1234#ID1#Big$ Gate#")
+        assertEquals(null, command)  // ❌ Should NOT match
+        assertEquals(null, extractedData)
+    }
+
+    @Test
+    fun `parseCommand should reject Relay 1 Output Name with numbers`() {
+        val (command, extractedData) = CommandParser.parseCommand("1234#ID1#Gate123#")
+        assertEquals(null, command)  // ❌ Should NOT match
+        assertEquals(null, extractedData)
+    }
+
+    @Test
+    fun `parseCommand should reject Relay 1 Output Name with empty name`() {
+        val (command, extractedData) = CommandParser.parseCommand("1234#ID1##")
+        assertEquals(null, command)  // ❌ Should NOT match
+        assertEquals(null, extractedData)
+    }
+
+    @Test
+    fun `parseCommand should correctly identify GET_Relay1_OUTPUT_NAME command`() {
+        val (command, extractedData) = CommandParser.parseCommand("1234#ID1?#")
+        assertEquals(IntercomCommand.GET_RELAY1_OUTPUT_NAME, command)
+        assertEquals(null, extractedData)
+    }
+
+    @Test
+    fun `parseCommand should correctly identify GET_Relay2_OUTPUT_NAME command`() {
+        val (command, extractedData) = CommandParser.parseCommand("1234#ID2?#")
+        assertEquals(IntercomCommand.GET_RELAY2_OUTPUT_NAME, command)
+        assertEquals(null, extractedData)
+    }
+
+    @Test
     fun `parseCommand should correctly identify SET_RELAY1_TIME command`() {
         val (command, extractedData) = CommandParser.parseCommand("1234#RL1T#02#")
         assertEquals(IntercomCommand.SET_RELAY1_TIME, command)

@@ -238,7 +238,7 @@ class MessageReceiver(
     private fun sendRelayNextFreeLocation(relayId: Long, phoneNumber: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val location = intercomDataSource.getRelayById(relayId).keypadCodeLocation
-            messageHandler.sendTextMessage(phoneNumber, "Next free location is $location")
+            messageHandler.sendTextMessage(phoneNumber, "Location is $location")
         }
     }
 

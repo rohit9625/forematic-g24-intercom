@@ -24,6 +24,8 @@ object CommandParser {
             IntercomCommand.SET_MIC_VOLUME,
             IntercomCommand.SET_SPEAKER_VOLUME,
             IntercomCommand.SET_TIMEZONE_MODE,
+            IntercomCommand.SET_RELAY1_OUTPUT_NAME,
+            IntercomCommand.SET_RELAY2_OUTPUT_NAME,
             IntercomCommand.SET_RELAY1_TIME,
             IntercomCommand.SET_RELAY2_TIME,
             IntercomCommand.SET_CLI_NUMBER,

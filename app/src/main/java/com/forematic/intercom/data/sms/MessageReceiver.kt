@@ -168,6 +168,25 @@ class MessageReceiver(
                     setCliModeAndSendResponse(phoneNumber, data.firstValue ?: "ANY")
                 }
             }
+
+            IntercomCommand.SET_RELAY1_OUTPUT_NAME -> {
+                extractedData?.let {
+                    setRelayOutputName(phoneNumber, 1, it.firstValue ?: "")
+                }
+            }
+
+            IntercomCommand.SET_RELAY2_OUTPUT_NAME -> {
+                extractedData?.let {
+                    setRelayOutputName(phoneNumber, 2, it.firstValue ?: "")
+                }
+            }
+        }
+    }
+
+    private fun setRelayOutputName(phoneNumber: String, relayId: Long, name: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            intercomDataSource.setOutputName(relayId, name)
+            messageHandler.sendTextMessage(phoneNumber, "Output name is set")
         }
     }
 
